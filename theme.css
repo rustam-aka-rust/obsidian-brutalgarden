@@ -1,0 +1,2546 @@
+/* =============================================================
+   BrutalGarden — нео-брутализм цифрового сада для Obsidian
+   Порт дизайн-системы сайта (DESIGN_IDENTITY.md + soft-night.css)
+
+   Light = «бумага» #F4F4F0, чёрные рамки 3px, жёсткие тени
+   Dark  = Soft Night #1C1917, рамки #57534E, тени лаймом
+
+   Шрифты: iA Writer Duo S (текст) / Quattro S (интерфейс) / Mono S (код)
+   ============================================================= */
+
+/* =============================================================
+   1. ОБЩЕЕ ДЛЯ ОБЕИХ ТЕМ — геометрия, шрифты, структура
+   ============================================================= */
+body {
+  /* --- Шрифты. Внимание: пользовательские настройки Appearance
+         перебивают эти переменные. Чтобы тема управляла шрифтами,
+         поля шрифтов в настройках должны быть пустыми. --- */
+  --font-text-theme: "iA Writer Duo S", "iA Writer Quattro S", ui-monospace, monospace;
+  --font-interface-theme: "iA Writer Quattro S", ui-sans-serif, system-ui, sans-serif;
+  --font-monospace-theme: "iA Writer Mono S", ui-monospace, "SF Mono", monospace;
+
+  /* --- Radius: строго 0. Брутализм не скругляется. --- */
+  --radius-s: 0px;
+  --radius-m: 0px;
+  --radius-l: 0px;
+  --radius-xl: 0px;
+  --input-radius: 0px;
+  --button-radius: 0px;
+  --tab-radius: 0px;
+  --tab-radius-active: 0px;
+  --checkbox-radius: 0px;
+  --modal-radius: 0px;
+  --callout-radius: 0px;
+  --code-radius: 0px;
+  --tag-radius: 0px;
+  --nav-tag-radius: 0px;
+  --nav-item-radius: 0px;
+  --menu-radius: 0px;
+  --pill-radius: 0px;
+  --swatch-radius: 0px;
+  --toggle-radius: 0px;
+  --toggle-thumb-radius: 0px;
+  --slider-thumb-radius: 0px;
+  --scrollbar-radius: 0px;
+  --status-bar-radius: 0px;
+  --textarea-radius: 0px;
+  --search-input-radius: 0px;
+  --clickable-icon-radius: 0px;
+  --metadata-border-radius: 0px;
+  --metadata-property-radius: 0px;
+  --metadata-property-radius-hover: 0px;
+  --metadata-property-radius-focus: 0px;
+  --footnote-radius: 0px;
+  --list-bullet-radius: 0px;
+  --canvas-controls-radius: 0px;
+  --view-header-action-radius: 0px;
+  --setting-items-radius: 0px;
+  --vault-profile-radius: 0px;
+  --navbar-radius: 0px;
+  --mobile-sidebar-radius: 0px;
+  --bases-cards-radius: 0px;
+  --bases-embed-border-radius: 0px;
+  --bases-table-container-border-radius: 0px;
+
+  /* --- Рамки: 3px, как велит конституция. Никогда 1px. --- */
+  --border-width: 3px;
+  --divider-width: 2px;
+  --divider-width-hover: 3px;
+  --tab-outline-width: 0px;
+  --table-border-width: 2px;
+  --callout-border-width: 3px;
+  --tag-border-width: 2px;
+  --hr-thickness: 3px;
+  --blockquote-border-thickness: 6px;
+
+  /* --- Типографика --- */
+  --font-weight: 400;
+  --bold-weight: 700;
+  --bold-modifier: 300;
+  --line-height-normal: 1.6;
+  --line-height-tight: 1.3;
+  --p-spacing: 1.1rem;
+
+  /* Заголовки: потолок веса у iA Writer — 700, поэтому плотность
+     добираем размером, uppercase и отрицательным трекингом. */
+  --h1-font: var(--font-interface-theme);
+  --h2-font: var(--font-interface-theme);
+  --h3-font: var(--font-interface-theme);
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 700;
+  --h4-weight: 700;
+  --h5-weight: 700;
+  --h6-weight: 700;
+  --h1-size: 2.4em;
+  --h2-size: 1.7em;
+  --h3-size: 1.35em;
+  --h4-size: 1.1em;
+  --h5-size: 1em;
+  --h6-size: 0.9em;
+  --h1-line-height: 1.05;
+  --h2-line-height: 1.15;
+  --heading-spacing: calc(var(--p-spacing) * 2.2);
+
+  /* --- Ширина полосы чтения — как колонка эссе на сайте --- */
+  --file-line-width: 720px;
+
+  /* --- Ссылки --- */
+  --link-decoration: none;
+  --link-decoration-hover: none;
+  --link-weight: 600;
+
+  /* --- Иконки: квадратные засечки (из sample-theme) --- */
+  --icon-stroke: 2px;
+
+  /* --- Токены сайта под портированный слой callout'ов.
+         На сайте акценты ОДИНАКОВЫ в обеих темах (Soft Night меняет
+         только фон/текст/рамку), поэтому объявляем их здесь, а не
+         в .theme-light/.theme-dark. Значения — из global.css сайта. --- */
+  --color-neo-lime: #c2f970;
+  --color-neo-blue: #2e5cff;
+  --color-neo-orange: #ff6b35;
+  --color-neo-bg: #f4f4f0;
+  --color-neo-text: #1a1a1a;
+  --color-neo-border: #000000;
+  --shadow-brutal-sm: 3px 3px 0 #000;
+  --shadow-brutal: 6px 6px 0 #000;
+  --shadow-brutal-lg: 8px 8px 0 #000;
+  --font-mono: var(--font-monospace-theme);
+}
+
+/* SVG: жёсткая геометрия, никаких скруглений (приём из sample-theme) */
+svg {
+  stroke-linecap: square !important;
+  stroke-linejoin: miter !important;
+}
+
+/* =============================================================
+   2. LIGHT — «бумага» #F4F4F0
+   ============================================================= */
+.theme-light {
+  /* Акцент = Neo-Lime hsl(84, 92%, 71%) */
+  --accent-h: 84;
+  --accent-s: 92%;
+  --accent-l: 71%;
+
+  /* Палитра бренда */
+  --neo-lime: #c2f970;
+  --neo-blue: #2e5cff;
+  --neo-orange: #ff6b35;
+  --neo-paper: #f4f4f0;
+  --neo-ink: #1a1a1a;
+  --sticker-yellow: #fff9c4;
+
+  /* Шкала «бумаги» — от неё Obsidian раскрасит весь интерфейс */
+  --color-base-00: #f4f4f0;
+  --color-base-05: #efefe9;
+  --color-base-10: #ebebe4;
+  --color-base-20: #e7e7df;
+  --color-base-25: #e1e1d7;
+  --color-base-30: #d6d6ca;
+  --color-base-35: #c6c6b8;
+  --color-base-40: #a5a597;
+  --color-base-50: #8a8a7c;
+  --color-base-60: #6a6a5e;
+  --color-base-70: #3a3a34;
+  --color-base-100: #1a1a1a;
+
+  /* Акцентные цвета бренда поверх дефолтных */
+  --color-orange: #ff6b35;
+  --color-blue: #2e5cff;
+  --color-green: #7cb342;
+
+  /* Поверхности */
+  --background-primary: #f4f4f0;
+  --background-primary-alt: #ebebe4;
+  --background-secondary: #eaeae3;
+  --background-secondary-alt: #e1e1d7;
+  --background-modifier-border: #000000;
+  --background-modifier-border-hover: #000000;
+  --background-modifier-border-focus: var(--neo-blue);
+  --background-modifier-hover: rgba(194, 249, 112, 0.35);
+  --background-modifier-active-hover: rgba(194, 249, 112, 0.55);
+
+  /* Текст */
+  --text-normal: #1a1a1a;
+  --text-muted: #6a6a5e;
+  --text-faint: #a5a597;
+  --text-on-accent: #000000;
+  --text-accent: #1a1a1a;
+  --text-accent-hover: #000000;
+  --text-selection: #000000;
+  --text-highlight-bg: var(--neo-lime);
+  --caret-color: var(--neo-orange);
+
+  --bold-color: #000000;
+  --italic-color: #4a4a44;
+
+  /* Интерактив */
+  --interactive-normal: #f4f4f0;
+  --interactive-hover: var(--neo-lime);
+  --interactive-accent: var(--neo-lime);
+  --interactive-accent-hover: #b3f050;
+
+  --divider-color: #000000;
+
+  /* Тени: вырезанный картон, blur = 0 */
+  --shadow-brutal-sm: 3px 3px 0 #000;
+  --shadow-brutal: 6px 6px 0 #000;
+  --shadow-brutal-lg: 8px 8px 0 #000;
+  --shadow-xs: 2px 2px 0 #000;
+  --shadow-s: 3px 3px 0 #000;
+  --shadow-l: 6px 6px 0 #000;
+  --shadow-drag: 8px 8px 0 #000;
+  --input-shadow: none;
+  --input-shadow-hover: none;
+
+  /* Точки фона */
+  --grid-dot: #e0e0d6;
+}
+
+/* Выделение текста: чёрный фон, белый текст */
+.theme-light ::selection {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* =============================================================
+   3. DARK — Soft Night #1C1917
+   ============================================================= */
+.theme-dark {
+  --accent-h: 84;
+  --accent-s: 92%;
+  --accent-l: 71%;
+
+  --neo-lime: #c2f970;
+  --neo-blue: #6f8dff;
+  --neo-orange: #ff8c5f;
+  --neo-paper: #1c1917;
+  --neo-ink: #d6d3d1;
+
+  /* Шкала тёплого угля */
+  --color-base-00: #1c1917;
+  --color-base-05: #201d1a;
+  --color-base-10: #24211e;
+  --color-base-20: #292524;
+  --color-base-25: #2e2a28;
+  --color-base-30: #3a3532;
+  --color-base-35: #44403c;
+  --color-base-40: #57534e;
+  --color-base-50: #6b6560;
+  --color-base-60: #a8a29e;
+  --color-base-70: #c4bfba;
+  --color-base-100: #fafaf9;
+
+  --color-orange: #ff8c5f;
+  --color-blue: #6f8dff;
+
+  --background-primary: #1c1917;
+  --background-primary-alt: #201d1a;
+  --background-secondary: #211e1b;
+  --background-secondary-alt: #292524;
+  --background-modifier-border: #57534e;
+  --background-modifier-border-hover: #6b6560;
+  --background-modifier-border-focus: var(--neo-lime);
+  --background-modifier-hover: rgba(194, 249, 112, 0.14);
+  --background-modifier-active-hover: rgba(194, 249, 112, 0.22);
+
+  --text-normal: #d6d3d1;
+  --text-muted: #a8a29e;
+  --text-faint: #6b6560;
+  --text-on-accent: #1c1917;
+  --text-accent: #d6d3d1;
+  --text-accent-hover: #fafaf9;
+  --text-selection: rgba(194, 249, 112, 0.28);
+  --text-highlight-bg: rgba(194, 249, 112, 0.3);
+  --caret-color: var(--neo-lime);
+
+  --bold-color: #fafaf9;
+  --italic-color: #a8a29e;
+
+  --interactive-normal: #292524;
+  --interactive-hover: #3a3532;
+  --interactive-accent: var(--neo-lime);
+  --interactive-accent-hover: #d2ff8a;
+
+  --divider-color: #57534e;
+
+  /* Тени лаймом — подпись Soft Night */
+  --shadow-brutal-sm: 3px 3px 0 rgba(194, 249, 112, 0.1);
+  --shadow-brutal: 6px 6px 0 rgba(194, 249, 112, 0.12);
+  --shadow-brutal-lg: 8px 8px 0 rgba(194, 249, 112, 0.15);
+  --shadow-xs: 2px 2px 0 rgba(194, 249, 112, 0.1);
+  --shadow-s: 3px 3px 0 rgba(194, 249, 112, 0.12);
+  --shadow-l: 6px 6px 0 rgba(194, 249, 112, 0.15);
+  --shadow-drag: 8px 8px 0 rgba(194, 249, 112, 0.18);
+  --input-shadow: none;
+  --input-shadow-hover: none;
+
+  --grid-dot: #292524;
+}
+
+.theme-dark ::selection {
+  background-color: rgba(194, 249, 112, 0.28);
+}
+
+/* =============================================================
+   4. ТОЧЕЧНАЯ СЕТКА 24px
+   Как на сайте — на «шасси» (сайдбары, пустые экраны),
+   полоса чтения остаётся плоской бумагой.
+   ============================================================= */
+.workspace-split.mod-left-split .workspace-leaf,
+.workspace-split.mod-right-split .workspace-leaf,
+.empty-state,
+.workspace-leaf-content[data-type="empty"] {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* =============================================================
+   5. ЗАГОЛОВКИ — гигантский слэб, uppercase
+   ============================================================= */
+.inline-title,
+.markdown-preview-view h1,
+.markdown-source-view.mod-cm6 .HyperMD-header-1,
+.cm-s-obsidian .HyperMD-header-1 {
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.markdown-preview-view h2,
+.markdown-source-view.mod-cm6 .HyperMD-header-2 {
+  letter-spacing: -0.01em;
+}
+
+/* H2 — подчёркнут жирной линией, как на сайте */
+.markdown-preview-view h2 {
+  border-bottom: 3px solid var(--background-modifier-border);
+  padding-bottom: 0.25em;
+}
+
+/* =============================================================
+   6. ССЫЛКИ — подпись сайта: подчёркивание-заливка
+   ============================================================= */
+.markdown-rendered a.internal-link,
+.cm-s-obsidian .cm-hmd-internal-link {
+  background: linear-gradient(transparent 60%, var(--neo-orange) 60%);
+  color: var(--text-normal);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.markdown-rendered a.internal-link:hover,
+.cm-s-obsidian .cm-hmd-internal-link:hover {
+  background: var(--neo-orange);
+  color: #1a1a1a;
+}
+
+.markdown-rendered a.external-link,
+.cm-s-obsidian .cm-link,
+.cm-s-obsidian .cm-url {
+  background: linear-gradient(transparent 60%, rgba(46, 92, 255, 0.45) 60%);
+  color: var(--text-normal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.markdown-rendered a.external-link:hover {
+  background: var(--neo-blue);
+  color: #ffffff;
+}
+
+/* Несуществующая заметка — пунктир, без заливки */
+.markdown-rendered a.internal-link.is-unresolved {
+  background: none;
+  border-bottom: 2px dashed var(--text-faint);
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* =============================================================
+   7. ==ВЫДЕЛЕНИЕ== — [3Э] Третий Элемент: лайм + тонкая рамка
+   ============================================================= */
+.markdown-rendered mark,
+.cm-s-obsidian .cm-highlight {
+  background: var(--neo-lime);
+  border: 1px solid #000;
+  padding: 0 0.15em;
+  color: #1a1a1a;
+}
+
+.theme-dark .markdown-rendered mark,
+.theme-dark .cm-s-obsidian .cm-highlight {
+  border-color: rgba(194, 249, 112, 0.5);
+  background: rgba(194, 249, 112, 0.25);
+  color: #fafaf9;
+}
+
+/* =============================================================
+   8. CALLOUT'Ы — карта цветов
+
+   Внешний вид callout'ов задаёт ПОРТИРОВАННЫЙ слой в конце файла
+   (извлечён с сайта). Здесь — только назначение --callout-color для
+   типов, которых сайт не описывает (success, bug, fail, danger…):
+   портированный `.callout-title { background: var(--callout-color) }`
+   подхватит их автоматически.
+   ============================================================= */
+
+/* Адаптер под Obsidian: у сайта .callout — голый div без padding,
+   а app.css добавляет `padding: var(--callout-padding)` (12px 12px 12px 24px).
+   Без обнуления полоса заголовка отжимается от рамок и вёрстка сайта плывёт.
+   Значение — четырёхзначный шорткат, calc()-ить его нельзя. */
+.callout {
+  --callout-padding: 0;
+}
+
+/* Live Preview: виджет callout'а — это [contenteditable=false] внутри .cm-content,
+   и app.css вешает на такие узлы paint-containment:
+       .markdown-source-view.mod-cm6 .cm-content > [contenteditable=false]
+       { contain: paint; }
+   Paint-containment МОЛЧА режет всё, что выходит за padding-box обёртки,
+   и НЕ виден в `overflow` — обычной диагностикой не находится.
+   Обёртка начинается ровно там же, где .callout, поэтому декорации сайта,
+   свисающие наружу, обрезаются: плашка-кавычка у quote (left:-23px),
+   штампы «всегда/никогда», метки специменов. В reading-режиме такой обёртки
+   нет вовсе — потому там всё цело.
+   Правило app.css стоит с !important (Обсидиан защищает перерисовку от тем),
+   поэтому перебить его можно ТОЛЬКО своим !important — специфичность одна
+   его не берёт. Селектор повторяет структуру оригинала и добавляет класс,
+   чтобы выиграть и по весу тоже: (0,5,0) против (0,4,0).
+   Снимаем ТОЛЬКО paint, оставляя layout и style: обрезка уходит,
+   выигрыш в перерисовке в основном сохраняется. */
+.markdown-source-view.mod-cm6 .cm-content > .cm-embed-block.cm-callout {
+  contain: layout style !important;
+}
+
+/* Live Preview: обёртка .cm-embed-block на ховере включает overflow:hidden,
+   скругление и кольцо --embed-block-shadow-hover
+   (`0 0 0 1px var(--background-modifier-border)` + такой же inset).
+   В штатной теме эта рамка бледно-серая и незаметна, но у нас
+   --background-modifier-border чёрный — кольцо читается как рамка,
+   а обрезка срезает декорации сайта, которые торчат наружу по замыслу:
+   метки EX_01 на top:-11px, штампы «всегда/никогда», жёсткие тени.
+   Ховер и так обозначен кнопкой </> — кольцо избыточно. */
+.markdown-source-view.mod-cm6 .cm-embed-block.cm-callout:hover {
+  overflow: visible;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.theme-light .callout {
+  --callout-default: #2e5cff;
+  --callout-info: #2e5cff;
+  --callout-todo: #2e5cff;
+  --callout-tip: #c2f970;
+  --callout-success: #c2f970;
+  --callout-example: #c2f970;
+  --callout-question: #ff6b35;
+  --callout-warning: #ff6b35;
+  --callout-important: #ff6b35;
+  --callout-quote: #d6d6ca;
+  --callout-summary: #fff9c4;
+}
+
+.theme-dark .callout {
+  --callout-default: #6f8dff;
+  --callout-info: #6f8dff;
+  --callout-todo: #6f8dff;
+  --callout-tip: #c2f970;
+  --callout-success: #c2f970;
+  --callout-example: #c2f970;
+  --callout-question: #ff8c5f;
+  --callout-warning: #ff8c5f;
+  --callout-important: #ff8c5f;
+  --callout-quote: #57534e;
+  --callout-summary: #e0de71;
+}
+
+/* =============================================================
+   9. ЦИТАТЫ — страница книги
+   ============================================================= */
+.markdown-rendered blockquote {
+  background: color-mix(in srgb, var(--background-secondary) 60%, transparent);
+  border-left: 6px solid var(--neo-blue);
+  padding: 1rem 1.25rem;
+  font-style: normal;
+}
+
+/* =============================================================
+   10. ТАБЛИЦЫ — brutal-контейнер
+   ============================================================= */
+.markdown-rendered table {
+  border: 3px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-brutal);
+  border-collapse: collapse;
+}
+
+.markdown-rendered th {
+  background: var(--neo-lime);
+  color: #1a1a1a;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: var(--font-ui-smaller);
+  letter-spacing: 0.04em;
+  border: 2px solid #000;
+}
+
+.theme-dark .markdown-rendered th {
+  background: rgba(194, 249, 112, 0.18);
+  color: #fafaf9;
+  border-color: #57534e;
+}
+
+.markdown-rendered td {
+  border: 2px solid var(--background-modifier-border);
+}
+
+/* =============================================================
+   11. КОД
+   ============================================================= */
+.markdown-rendered code {
+  background: var(--background-secondary);
+  border: 2px solid var(--background-modifier-border);
+  padding: 0.05em 0.3em;
+}
+
+.markdown-rendered pre {
+  background: var(--background-secondary);
+  border: 3px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.markdown-rendered pre code {
+  border: none;
+  background: transparent;
+}
+
+/* =============================================================
+   12. ТЕГИ — брутальные чипы
+   ============================================================= */
+.markdown-rendered a.tag,
+.cm-s-obsidian .cm-hashtag {
+  background: var(--neo-lime);
+  color: #1a1a1a;
+  border: 2px solid #000;
+  padding: 0.05em 0.4em;
+  font-weight: 700;
+  font-size: var(--font-smaller);
+  text-decoration: none;
+}
+
+.theme-dark .markdown-rendered a.tag,
+.theme-dark .cm-s-obsidian .cm-hashtag {
+  background: rgba(194, 249, 112, 0.2);
+  color: #c2f970;
+  border-color: #57534e;
+}
+
+/* =============================================================
+   13. HR — жирный разрез
+   ============================================================= */
+.markdown-rendered hr {
+  border: none;
+  border-top: 3px solid var(--background-modifier-border);
+}
+
+/* =============================================================
+   14. ВКЛАДКИ И ШАССИ
+   ============================================================= */
+.workspace-tab-header.is-active {
+  box-shadow: inset 0 -3px 0 var(--neo-orange);
+}
+
+/* Убираем декоративные псевдоэлементы вкладок (приём sample-theme) */
+.workspace-tab-header.is-active::before,
+.workspace-tab-header.is-active::after {
+  display: none;
+}
+
+.workspace-tab-header.is-active .workspace-tab-header-inner-title {
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+/* Разделитель рабочих областей */
+.workspace-split.mod-root .workspace-leaf {
+  border: 2px solid var(--background-modifier-border);
+}
+
+/* =============================================================
+   15. КНОПКИ — эффект физического нажатия
+   ============================================================= */
+button:not(.clickable-icon),
+.mod-cta {
+  border: 3px solid var(--background-modifier-border) !important;
+  box-shadow: var(--shadow-brutal-sm);
+  font-weight: 700;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+button:not(.clickable-icon):active,
+.mod-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* =============================================================
+   16. МОДАЛКИ И ПАЛИТРА КОМАНД
+   ============================================================= */
+.modal,
+.prompt,
+.suggestion-container,
+.menu {
+  border: 3px solid var(--background-modifier-border);
+  box-shadow: var(--shadow-brutal-lg);
+}
+
+.suggestion-item.is-selected,
+.menu-item.selected {
+  background: var(--neo-lime);
+  color: #1a1a1a;
+}
+
+.theme-dark .suggestion-item.is-selected,
+.theme-dark .menu-item.selected {
+  background: rgba(194, 249, 112, 0.2);
+  color: #fafaf9;
+}
+
+/* =============================================================
+   17. ЧЕКБОКСЫ — квадрат с жёсткой рамкой
+   ============================================================= */
+input[type="checkbox"] {
+  border: 2px solid var(--background-modifier-border) !important;
+  background: var(--background-primary);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--neo-lime);
+  border-color: #000 !important;
+}
+
+/* =============================================================
+   18. ГРАФ — цвета сайта
+   ============================================================= */
+.graph-view.color-fill {
+  color: var(--neo-orange);
+}
+.graph-view.color-fill-focused {
+  color: var(--neo-blue);
+}
+.graph-view.color-line {
+  color: var(--background-modifier-border);
+}
+.graph-view.color-circle {
+  color: #000000;
+}
+.graph-view.color-fill-tag {
+  color: var(--neo-lime);
+}
+.graph-view.color-fill-unresolved {
+  color: var(--text-faint);
+}
+
+/* =============================================================
+   19. САЙДБАР — активный файл лаймом
+   ============================================================= */
+.nav-file-title.is-active,
+.tree-item-self.is-active {
+  background: var(--neo-lime) !important;
+  color: #1a1a1a !important;
+  font-weight: 700;
+}
+
+.theme-dark .nav-file-title.is-active,
+.theme-dark .tree-item-self.is-active {
+  background: rgba(194, 249, 112, 0.2) !important;
+  color: #fafaf9 !important;
+}
+
+/* =============================================================
+   20. СТАТУС-БАР
+   ============================================================= */
+.status-bar {
+  border-top: 3px solid var(--background-modifier-border);
+  font-family: var(--font-monospace-theme);
+  font-size: var(--font-ui-smaller);
+}
+
+
+/* ==== PORTED CALLOUTS (сгенерировано _port-to-obsidian.mjs) ==== */
+/* Источник: design-system/assets/callouts.css (извлечён из боевого сайта).
+   НЕ ПРАВИТЬ РУКАМИ — правь сайт и перегенерируй:
+     node design-system/_generate.mjs && node design-system/_port-to-obsidian.mjs */
+
+    .callout {
+        margin: 2em 0 !important;
+        border: 3px solid #000 !important;
+        background: #fff !important;
+        box-shadow: 6px 6px 0 #000;
+        overflow: hidden;
+        border-radius: 0 !important;
+        display: block;
+        font-style: normal !important;
+    }
+    .callout::before {
+        display: none !important;
+    }
+    .callout[data-callout="note"] {
+        --callout-color: var(--color-neo-lime, #c2f970);
+        --callout-icon: "💡";
+    }
+    .callout[data-callout="tip"] {
+        --callout-color: #60a5fa;
+        --callout-icon: "✨";
+    }
+    .callout[data-callout="warning"] {
+        --callout-color: var(--color-neo-orange, #ff6b35);
+        --callout-icon: "⚠️";
+    }
+    .callout[data-callout="important"] {
+        --callout-color: var(--color-neo-blue, #2e5cff);
+        --callout-icon: "❗";
+    }
+    .callout[data-callout="caution"] {
+        --callout-color: #ef4444;
+        --callout-icon: "🔥";
+    }
+    .callout[data-callout="example"] {
+        --callout-color: #a855f7;
+        --callout-icon: "🧪";
+    }
+    .callout[data-callout="question"] {
+        --callout-color: #06b6d4;
+        --callout-icon: "❓";
+    }
+    .callout[data-callout="quote"] {
+        --callout-color: #e2e8f0;
+        --callout-icon: "❝";
+    }
+    .callout[data-callout="feedback"] {
+        --callout-color: var(--color-neo-orange, #ff6b35);
+        --callout-icon: "✍️";
+    }
+    .callout[data-callout="feedback"] .feedback-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+    .callout[data-callout="feedback"] .feedback-hint {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: #57534e;
+    }
+    .callout[data-callout="feedback"] textarea.feedback-text,
+    .callout[data-callout="feedback"] input.feedback-contact {
+        width: 100%;
+        box-sizing: border-box;
+        border: 3px solid #000;
+        background: #fff;
+        color: #000;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+        border-radius: 0;
+        transition: background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .callout[data-callout="feedback"] textarea.feedback-text {
+        min-height: 130px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+    .callout[data-callout="feedback"] textarea.feedback-text:focus,
+    .callout[data-callout="feedback"] input.feedback-contact:focus {
+        outline: none;
+        background: #fffdf5;
+        box-shadow: inset 0 0 0 1px #000;
+    }
+    .callout[data-callout="feedback"] textarea.feedback-text::placeholder,
+    .callout[data-callout="feedback"] input.feedback-contact::placeholder {
+        color: #a8a29e;
+    }
+    .callout[data-callout="feedback"] .feedback-hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .callout[data-callout="feedback"] .feedback-send {
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--callout-color);
+        color: #000;
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0 #000;
+        padding: 0.7rem 1.5rem;
+        font-family: var(--font-monospace-theme);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .callout[data-callout="feedback"] .feedback-send:hover:not(:disabled) {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 #000;
+    }
+    .callout[data-callout="feedback"] .feedback-send:active:not(:disabled) {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 #000;
+    }
+    .callout[data-callout="feedback"] .feedback-send:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+    .callout[data-callout="feedback"] .feedback-status {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .callout[data-callout="feedback"] .feedback-status.is-error {
+        color: #dc2626;
+    }
+    .callout[data-callout="feedback"] .feedback-done {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-family: var(--font-monospace-theme);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        color: #000;
+    }
+    .callout[data-callout="feedback"] .feedback-done .feedback-done-emoji {
+        font-size: 1.6rem;
+    }
+    .theme-dark .callout[data-callout="feedback"] textarea.feedback-text,
+    .theme-dark .callout[data-callout="feedback"] input.feedback-contact {
+        background: #1c1917;
+        color: #d6d3d1;
+        border-color: #57534e;
+    }
+    .theme-dark .callout[data-callout="feedback"] textarea.feedback-text:focus,
+    .theme-dark .callout[data-callout="feedback"] input.feedback-contact:focus {
+        background: #232020;
+        box-shadow: inset 0 0 0 1px #c2f970;
+    }
+    .theme-dark .callout[data-callout="feedback"] textarea.feedback-text::placeholder,
+    .theme-dark .callout[data-callout="feedback"] input.feedback-contact::placeholder {
+        color: #78716c;
+    }
+    .theme-dark .callout[data-callout="feedback"] .feedback-hint {
+        color: #a8a29e;
+    }
+    .theme-dark .callout[data-callout="feedback"] .feedback-send {
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+    }
+    .theme-dark .callout[data-callout="feedback"] .feedback-send:hover:not(:disabled) {
+        box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
+    }
+    .theme-dark .callout[data-callout="feedback"] .feedback-done {
+        color: #d6d3d1;
+    }
+    .callout[data-callout="quote"] {
+        background: #faf8f3 !important;
+        border: none !important;
+        border-left: 6px solid #000 !important;
+        box-shadow: none !important;
+        position: relative;
+        overflow: visible !important;
+    }
+    .callout[data-callout="quote"]::before {
+        content: "„" !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 1rem;
+        left: -23px;
+        width: 40px;
+        height: 40px;
+        background: #000;
+        color: #fff;
+        font-family: var(--font-monospace-theme);
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1;
+        z-index: 2;
+        pointer-events: none;
+    }
+    .callout[data-callout="quote"] .callout-title {
+        display: none !important;
+    }
+    .callout[data-callout="quote"] .callout-content {
+        padding: 1.5rem 1.5rem 1rem 2.5rem !important;
+        position: relative;
+        z-index: 1;
+    }
+    .callout[data-callout="quote"] .callout-content p {
+        font-family: var(--font-monospace-theme) !important;
+        font-style: italic !important;
+        font-size: 0.88em !important;
+        line-height: 1.75 !important;
+        color: #1a1a1a !important;
+    }
+    .callout[data-callout="quote"] .callout-content p:last-child {
+        font-family: var(--font-monospace-theme) !important;
+        font-style: normal !important;
+        font-size: 0.75em !important;
+        font-weight: 700 !important;
+        text-align: right !important;
+        color: #666 !important;
+        margin-top: 0.75rem !important;
+        padding-top: 0.5rem !important;
+        border-top: 1px solid #e0e0e0 !important;
+    }
+    .callout[data-callout="epigraph"] {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 2.5em 0 2.5em auto !important;
+        max-width: 55% !important;
+        padding: 0 !important;
+        position: relative;
+        overflow: visible !important;
+    }
+    .callout[data-callout="epigraph"] .callout-title {
+        display: inline-flex !important;
+        align-items: center;
+        background: #000 !important;
+        color: #fff !important;
+        border: 2px solid #000 !important;
+        padding: 2px 8px !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 9px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        transform: rotate(-2deg);
+        position: absolute;
+        top: -10px;
+        right: 0;
+        margin: 0 !important;
+        z-index: 2;
+        line-height: 1.2 !important;
+    }
+    .callout[data-callout="epigraph"] .callout-title :is(strong, .callout-title-inner) {
+        font-weight: 700 !important;
+        color: #fff !important;
+    }
+    .callout[data-callout="epigraph"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="epigraph"] .callout-content {
+        padding: 1.25rem 0 0 0 !important;
+        text-align: right !important;
+    }
+    .callout[data-callout="epigraph"] .callout-content p {
+        font-family: var(--font-monospace-theme) !important;
+        font-style: italic !important;
+        font-size: 0.9em !important;
+        line-height: 1.6 !important;
+        color: #555 !important;
+        margin: 0 0 0.5rem 0 !important;
+    }
+    .callout[data-callout="epigraph"] .callout-content p:not(:only-child):last-child {
+        font-family: var(--font-monospace-theme) !important;
+        font-style: normal !important;
+        font-size: 0.75em !important;
+        font-weight: 700 !important;
+        color: #888 !important;
+        margin-top: 0.5rem !important;
+    }
+    .callout[data-callout="epigraph"] .callout-content p:not(:only-child):last-child::before {
+        content: "— ";
+    }
+    .callout[data-callout="poem"] {
+        --callout-color: #c2f970;
+        --callout-icon: "♪";
+        background: #faf8f3 !important;
+        border: 2px solid #000 !important;
+        box-shadow: 4px 4px 0 var(--color-neo-lime, #c2f970) !important;
+        padding: 2.25rem 1.75rem 1.5rem 1.75rem !important;
+        margin: 2.75em 0 !important;
+        position: relative;
+        overflow: visible !important;
+    }
+    .callout[data-callout="poem"] .callout-title {
+        display: inline-flex !important;
+        align-items: center;
+        background: #000 !important;
+        color: #fff !important;
+        border: 2px solid #000 !important;
+        padding: 4px 10px !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.12em !important;
+        text-transform: uppercase !important;
+        transform: rotate(-2deg);
+        position: absolute;
+        top: -12px;
+        left: 1.25rem;
+        margin: 0 !important;
+        z-index: 2;
+        line-height: 1.2 !important;
+    }
+    .callout[data-callout="poem"] .callout-title :is(strong, .callout-title-inner) {
+        font-size: 0 !important;
+        line-height: 0 !important;
+    }
+    .callout[data-callout="poem"] .callout-title :is(strong, .callout-title-inner)::before {
+        content: "♪ ПЕСНЯ";
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        color: #fff !important;
+        font-weight: 700 !important;
+    }
+    .callout[data-callout="poem"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="poem"]::after {
+        content: "33⅓ RPM";
+        position: absolute;
+        top: -12px;
+        right: 1.25rem;
+        background: #000;
+        color: #fff;
+        border: 2px solid #000;
+        padding: 4px 10px;
+        font-family: var(--font-monospace-theme);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transform: rotate(2deg);
+        z-index: 2;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+    .callout[data-callout="poem"] .callout-content {
+        padding: 0.5rem 0 0 0 !important;
+    }
+    .callout[data-callout="poem"] .callout-content p {
+        font-family: var(--font-monospace-theme) !important;
+        font-style: italic !important;
+        font-size: 0.92em !important;
+        line-height: 1.85 !important;
+        color: #1a1a1a !important;
+        margin: 0 0 1.25rem 0 !important;
+    }
+    .callout[data-callout="poem"] .callout-content p strong {
+        font-style: normal !important;
+        font-weight: 700 !important;
+        background: var(--color-neo-lime, #c2f970);
+        padding: 0 4px;
+        color: #000 !important;
+    }
+    .callout[data-callout="poem"] .callout-content p:not(:only-child):last-child {
+        display: inline-block !important;
+        margin: 0.5rem 0 0 0 !important;
+        padding: 6px 12px !important;
+        background: #000 !important;
+        color: #fff !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-style: normal !important;
+        font-size: 0.72em !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+        box-shadow: 3px 3px 0 var(--color-neo-lime, #c2f970) !important;
+        border: 2px solid #000 !important;
+        line-height: 1.4 !important;
+    }
+    .callout[data-callout="abstract"] {
+        --callout-color: #94a3b8;
+        --callout-icon: "📋";
+    }
+    .callout[data-callout="info"] {
+        --callout-color: #38bdf8;
+        --callout-icon: "ℹ️";
+    }
+    .callout[data-callout="todo"] {
+        --callout-color: #fbbf24;
+        --callout-icon: "✅";
+    }
+    .callout[data-callout="prompt"] {
+        --callout-color: #06b6d4;
+        --callout-icon: "🤖";
+    }
+    .callout[data-callout="annotation"] {
+        --callout-color: #e2e8f0;
+        --callout-icon: "📝";
+    }
+    .callout[data-callout="definition"] {
+        background: #fffbeb !important;
+        border: 3px solid #000 !important;
+        box-shadow: 6px 6px 0 #000;
+        overflow: visible !important; /* Allow sticker to stick out */
+        position: relative;
+        margin-top: 3.5rem !important; /* Space for the tab */
+        margin-bottom: 2.5rem !important;
+    }
+    .callout[data-callout="definition"] .callout-title {
+        background: #000 !important;
+        color: #fff !important;
+        transform: rotate(-2deg);
+        display: inline-flex !important;
+        width: auto !important;
+        padding: 4px 14px !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        position: absolute;
+        top: -22px; /* Lift above the border */
+        left: 1.5rem;
+        border: 3px solid #000;
+        box-shadow: 2px 2px 0 var(--color-neo-lime);
+        z-index: 10;
+        margin: 0 !important;
+        cursor: default;
+    }
+    .callout[data-callout="definition"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+    }
+    .callout[data-callout="definition"] .callout-icon {
+        display: none !important; /* No icon as requested */
+    }
+    .callout[data-callout="definition"] .callout-content {
+        padding: 1.5rem 1.25rem 1.25rem !important;
+        background: transparent !important;
+    }
+    .callout-title,
+    .callout-title :is(strong, .callout-title-inner) {
+        color: #000 !important;
+    }
+    .callout-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem !important;
+        background: var(--callout-color) !important;
+        border-bottom: 3px solid #000;
+        font-family: var(--font-monospace-theme);
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        margin: 0 !important;
+        cursor: pointer;
+        user-select: none;
+        list-style: none; /* Hide default details arrow */
+        font-size: 0.9em;
+        line-height: 1.2;
+    }
+    .callout-title :is(strong, .callout-title-inner) {
+        font-weight: 700 !important;
+    }
+    .callout-title::-webkit-details-marker {
+        display: none; /* Hide for Safari */
+    }
+    .callout-icon::before {
+        content: var(--callout-icon);
+        font-size: 1.2em;
+        display: block;
+        line-height: 1;
+    }
+    .callout-fold {
+        margin-left: auto;
+        transition: transform 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    details.callout .callout-fold::before {
+        content: "▼";
+        font-size: 0.7em;
+        font-weight: 700;
+    }
+    details.callout[open] .callout-fold {
+        transform: rotate(180deg);
+    }
+    .callout > *:not(.callout-title) {
+        padding: 1rem 1.25rem !important;
+    }
+    .callout p {
+        margin-bottom: 1em !important;
+    }
+    .callout p:last-child {
+        margin-bottom: 0 !important;
+    }
+    .callout .callout-content {
+        padding: 1rem 1.25rem !important;
+    }
+    .callout[data-callout="notify"] {
+        --callout-icon: "📖";
+        --callout-color: transparent;
+        background: transparent !important;
+        border: none !important;
+        border-top: 1px dashed #b0b0b0 !important;
+        border-bottom: 1px dashed #b0b0b0 !important;
+        box-shadow: none !important;
+        margin: 1.5em 0 !important;
+    }
+    .callout[data-callout="notify"] .callout-title {
+        display: none !important;
+    }
+    .callout[data-callout="notify"] .callout-content {
+        padding: 0.6rem 0.25rem !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.78em;
+        color: #999 !important;
+        line-height: 1.5;
+    }
+    .callout[data-callout="notify"] .callout-content::before {
+        content: "📖 ";
+        font-size: 1em;
+    }
+    .callout[data-callout="notify"] .callout-content p {
+        display: inline;
+        margin: 0 !important;
+        color: #999 !important;
+    }
+    .callout[data-callout="notify"] .callout-content a {
+        color: #999 !important;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 2px;
+    }
+    .callout[data-callout="notify"] .callout-content a:hover {
+        color: #000 !important;
+    }
+    .callout[data-callout="gap"] {
+        background: transparent !important;
+        border: none !important;
+        border-left: 3px solid #e0e0e0 !important;
+        box-shadow: none !important;
+        margin: 2em 0 !important;
+        position: relative;
+    }
+    .callout[data-callout="gap"] .callout-title {
+        display: none !important;
+    }
+    .callout[data-callout="gap"] .callout-content {
+        padding: 0 !important;
+        position: relative;
+    }
+    .callout[data-callout="gap"] .callout-content p {
+        display: none !important;
+    }
+    .callout[data-callout="gap"] .callout-content::before {
+        content: "✏️ место для записей";
+        display: block;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.7em;
+        color: #bbb;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.4rem 0.75rem;
+    }
+    .callout[data-callout="gap"] .callout-content::after {
+        content: "";
+        display: block;
+        height: 12rem;
+        margin: 0 0.75rem 0.75rem;
+        background-image: radial-gradient(circle, #ccc 1px, transparent 1px);
+        background-size: 18px 28px;
+        background-position: 0 10px;
+    }
+    @media print {
+        .callout[data-callout="gap"] {
+            border-left: 2px solid #ccc !important;
+            page-break-inside: avoid;
+        }
+}
+    @media print {
+        .callout[data-callout="gap"] .callout-content::after {
+            height: 16rem;
+            background-image: radial-gradient(circle, #aaa 1px, transparent 1px);
+        }
+}
+    .callout[data-callout="prompt"] {
+        --callout-icon: "🤖";
+        --callout-color: #06b6d4;
+        background: #f0fdfa !important;
+        border: 3px solid #000 !important;
+        border-left: 6px solid #06b6d4 !important;
+        box-shadow: 6px 6px 0 #000;
+        overflow: visible !important;
+        position: relative;
+        margin-top: 3.5rem !important;
+        margin-bottom: 2.5rem !important;
+    }
+    .callout[data-callout="prompt"] .callout-title {
+        background: #000 !important;
+        color: #06b6d4 !important;
+        transform: rotate(-1deg);
+        display: inline-flex !important;
+        width: auto !important;
+        padding: 4px 14px !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        position: absolute;
+        top: -22px;
+        left: 1.5rem;
+        border: 3px solid #000;
+        box-shadow: 2px 2px 0 #06b6d4;
+        z-index: 10;
+        margin: 0 !important;
+        cursor: default;
+        border-bottom: 3px solid #000 !important;
+    }
+    .callout[data-callout="prompt"] .callout-title :is(strong, .callout-title-inner) {
+        color: #06b6d4 !important;
+    }
+    .callout[data-callout="prompt"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="prompt"] .callout-content {
+        padding: 1.5rem 1.25rem 1.25rem !important;
+        background: transparent !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.88em;
+        line-height: 1.7;
+    }
+    .callout-prompt-copy {
+        position: absolute;
+        top: -14px;
+        right: 1rem;
+        background: #000;
+        color: #06b6d4;
+        border: 2px solid #000;
+        box-shadow: 1px 1px 0 #06b6d4;
+        padding: 2px 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        transition: box-shadow 0.15s, transform 0.15s, opacity 0.2s;
+        opacity: 0.5;
+    }
+    .callout[data-callout="prompt"]:hover .callout-prompt-copy {
+        opacity: 1;
+    }
+    .callout-prompt-copy:hover {
+        transform: translateY(-1px);
+        box-shadow: 2px 2px 0 #06b6d4;
+    }
+    .callout-prompt-copy:active {
+        transform: translateY(0);
+        box-shadow: 0px 0px 0 #06b6d4;
+    }
+    .callout-prompt-copy.copied {
+        color: var(--color-neo-lime, #c2f970);
+        box-shadow: 2px 2px 0 var(--color-neo-lime, #c2f970);
+    }
+    .callout[data-callout="always"] {
+        --callout-icon: "→";
+        --callout-color: var(--color-neo-lime, #c2f970);
+        background: #fff !important;
+        border: 3px solid #000 !important;
+        border-left: 6px solid var(--color-neo-lime, #c2f970) !important;
+        box-shadow: 6px 6px 0 #000;
+        overflow: visible !important;
+        position: relative;
+        margin-top: 3.5rem !important;
+        margin-bottom: 2.5rem !important;
+    }
+    .callout[data-callout="always"] .callout-title {
+        background: #000 !important;
+        color: #fff !important;
+        transform: rotate(2deg);
+        display: inline-flex !important;
+        width: auto !important;
+        padding: 4px 14px !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        position: absolute;
+        top: -22px;
+        left: 1.5rem;
+        border: 3px solid #000;
+        box-shadow: 2px 2px 0 var(--color-neo-lime, #c2f970);
+        z-index: 10;
+        margin: 0 !important;
+        cursor: default;
+        border-bottom: 3px solid #000 !important;
+    }
+    .callout[data-callout="always"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+    }
+    .callout[data-callout="always"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="always"] .callout-content {
+        padding: 1.5rem 1.25rem 1.25rem !important;
+        background: transparent !important;
+    }
+    .callout[data-callout="never"] {
+        --callout-icon: "✕";
+        --callout-color: #ef4444;
+        background: #fff !important;
+        border: 3px solid #000 !important;
+        border-right: 6px solid #ef4444 !important;
+        box-shadow: 6px 6px 0 #000;
+        overflow: visible !important;
+        position: relative;
+        margin-top: 3.5rem !important;
+        margin-bottom: 2.5rem !important;
+    }
+    .callout[data-callout="never"] .callout-title {
+        background: #000 !important;
+        color: #fff !important;
+        transform: rotate(-2deg);
+        display: inline-flex !important;
+        width: auto !important;
+        padding: 4px 14px !important;
+        font-family: var(--font-monospace-theme);
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        position: absolute;
+        top: -22px;
+        right: 1.5rem;
+        border: 3px solid #000;
+        box-shadow: -2px 2px 0 #ef4444;
+        z-index: 10;
+        margin: 0 !important;
+        cursor: default;
+        border-bottom: 3px solid #000 !important;
+    }
+    .callout[data-callout="never"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+    }
+    .callout[data-callout="never"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="never"] .callout-content {
+        padding: 1.5rem 1.25rem 1.25rem !important;
+        background: transparent !important;
+    }
+    .callout[data-callout="dialogue"] {
+        background: #f9f9f6 !important;
+        border: 3px solid #000 !important;
+        box-shadow: 6px 6px 0 #000 !important;
+        overflow: visible !important;
+        position: relative;
+    }
+    .callout[data-callout="dialogue"]::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, #000 1px, transparent 0);
+        background-size: 12px 12px;
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .callout[data-callout="dialogue"] .callout-title {
+        display: inline-flex !important;
+        width: auto !important;
+        padding: 3px 12px !important;
+        font-size: 9px !important;
+        letter-spacing: 0.15em;
+        transform: rotate(-1.5deg);
+        margin: 0.5rem 0 0 1rem !important;
+        box-shadow: 2px 2px 0 var(--color-neo-orange, #ff6b35) !important;
+        border-bottom: 3px solid #000 !important;
+        background: #000 !important;
+        color: #fff !important;
+        position: relative;
+        z-index: 1;
+    }
+    .callout[data-callout="dialogue"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+    }
+    .callout[data-callout="dialogue"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="dialogue"]::before {
+        display: none !important;
+    }
+    .callout[data-callout="dialogue"] .callout-content {
+        display: flex !important;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.5rem 1.25rem !important;
+        position: relative;
+        z-index: 1;
+    }
+    .callout[data-callout="dialogue"] .callout-content > p {
+        background: #fff;
+        border: 3px solid #000;
+        padding: 0.7rem 1.1rem !important;
+        margin: 0 !important;
+        max-width: 78%;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.9em;
+        line-height: 1.55;
+        position: relative;
+        box-shadow: 4px 4px 0 #000;
+    }
+    .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(odd) {
+        align-self: flex-start;
+    }
+    .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(odd)::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 14px;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-right: 3px solid #000;
+        border-bottom: 3px solid #000;
+        transform: rotate(45deg);
+        box-shadow: 2px 2px 0 #000;
+    }
+    .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(even) {
+        align-self: flex-end;
+        background: var(--color-neo-lime, #c2f970);
+        box-shadow: -4px 4px 0 #000;
+    }
+    .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(even)::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 14px;
+        width: 12px;
+        height: 12px;
+        background: var(--color-neo-lime, #c2f970);
+        border-right: 3px solid #000;
+        border-bottom: 3px solid #000;
+        transform: rotate(45deg);
+        box-shadow: -2px 2px 0 #000;
+    }
+    .callout[data-callout="postscriptum"] {
+        position: relative;
+        background: #f5ede0 !important;
+        border: 3px solid #000 !important;
+        box-shadow: 7px 7px 0 var(--color-neo-orange, #ff6b35) !important;
+        margin: 3.5em 0 2.5em 0 !important;
+        padding: 1.75rem 1.5rem 1.25rem !important;
+        transform: rotate(-0.6deg);
+        overflow: visible !important;
+    }
+    .callout[data-callout="postscriptum"]::before {
+        display: none !important;
+    }
+    .callout[data-callout="postscriptum"]::after {
+        content: "✉ · 2026";
+        position: absolute;
+        top: 0.85rem;
+        right: 0.85rem;
+        font-family: var(--font-monospace-theme);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: #6b5d48;
+        padding: 0.45rem 0.7rem;
+        border: 1.5px dashed #b8a886;
+        background: rgba(255, 255, 255, 0.4);
+        transform: rotate(2deg);
+        pointer-events: none;
+        line-height: 1;
+    }
+    .callout[data-callout="postscriptum"] .callout-title {
+        position: absolute !important;
+        top: -14px !important;
+        left: 1.25rem !important;
+        display: inline-flex !important;
+        align-items: center;
+        width: auto !important;
+        padding: 6px 14px !important;
+        background: #000 !important;
+        color: #fff !important;
+        border: 3px solid #000 !important;
+        border-radius: 0 !important;
+        box-shadow: 3px 3px 0 var(--color-neo-orange, #ff6b35) !important;
+        transform: rotate(-3deg);
+        z-index: 2;
+        margin: 0 !important;
+    }
+    .callout[data-callout="postscriptum"] .callout-title .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="postscriptum"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+        font-size: 0;
+        line-height: 0;
+    }
+    .callout[data-callout="postscriptum"] .callout-title :is(strong, .callout-title-inner)::before {
+        content: "P.S.";
+        font-family: var(--font-monospace-theme);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        line-height: 1;
+        color: #fff;
+    }
+    .callout[data-callout="postscriptum"] .callout-content {
+        padding: 0.75rem 0.5rem 0 0 !important;
+        position: relative;
+        z-index: 1;
+    }
+    .callout[data-callout="postscriptum"] .callout-content p {
+        font-size: 0.95em !important;
+        line-height: 1.75 !important;
+        color: #2a2419 !important;
+        margin: 0 0 1rem 0 !important;
+    }
+    .callout[data-callout="postscriptum"] .callout-content p:first-child {
+        font-style: italic;
+    }
+    .callout[data-callout="postscriptum"] .callout-content p:last-child {
+        margin-bottom: 0 !important;
+    }
+    @media (max-width: 560px) {
+        .callout[data-callout="postscriptum"] {
+            transform: none;
+            padding: 1.5rem 1.1rem 1rem !important;
+            margin: 3em 0 2em 0 !important;
+            box-shadow: 5px 5px 0 var(--color-neo-orange, #ff6b35) !important;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="postscriptum"]::after {
+            display: none;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="postscriptum"] .callout-title {
+            top: -12px !important;
+            left: 0.75rem !important;
+            transform: rotate(-2deg);
+        }
+}
+    .callout[data-callout="collage"] {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        margin: 2.5em 0 !important;
+        padding: 0.5rem !important;
+    }
+    .callout[data-callout="collage"] .callout-title {
+        display: none !important;
+    }
+    .callout[data-callout="collage"]::before {
+        display: none !important;
+    }
+    .callout[data-callout="collage"] .callout-content {
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr);
+        grid-auto-rows: 70px;
+        grid-auto-flow: dense;
+        gap: 0.85rem;
+        padding: 0 !important;
+    }
+    .callout[data-callout="collage"] .callout-content > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        position: relative;
+        border: 3px solid #000;
+        background: #fff;
+        overflow: hidden;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, z-index 0s 0.18s;
+        will-change: transform;
+    }
+    .callout[data-callout="collage"] .callout-content > p > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        cursor: zoom-in;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+1) {
+        grid-column: span 3;
+        grid-row: span 3;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+2) {
+        grid-column: span 3;
+        grid-row: span 2;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+3) {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+4) {
+        grid-column: span 4;
+        grid-row: span 2;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+5) {
+        grid-column: span 2;
+        grid-row: span 3;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1) {
+        box-shadow: 6px 6px 0 var(--color-neo-lime, #c2f970), 6px 6px 0 1px #000;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2) {
+        box-shadow: 6px 6px 0 var(--color-neo-orange, #ff6b35), 6px 6px 0 1px #000;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3) {
+        box-shadow: 6px 6px 0 var(--color-neo-blue, #2e5cff), 6px 6px 0 1px #000;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(4n+1) {
+        transform: rotate(-1.2deg);
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(4n+2) {
+        transform: rotate(0.8deg);
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(4n+3) {
+        transform: rotate(-0.4deg);
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(4n+4) {
+        transform: rotate(1.6deg);
+    }
+    .callout[data-callout="collage"] .callout-content > p:hover {
+        transform: rotate(0deg) translate(-2px, -2px) scale(1.02);
+        z-index: 5;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, z-index 0s;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1):hover {
+        box-shadow: 10px 10px 0 var(--color-neo-lime, #c2f970), 10px 10px 0 1px #000;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2):hover {
+        box-shadow: 10px 10px 0 var(--color-neo-orange, #ff6b35), 10px 10px 0 1px #000;
+    }
+    .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3):hover {
+        box-shadow: 10px 10px 0 var(--color-neo-blue, #2e5cff), 10px 10px 0 1px #000;
+    }
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content {
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 60px;
+            gap: 0.6rem;
+        }
+}
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+1) { grid-column: span 2; grid-row: span 3; }
+}
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+2) { grid-column: span 2; grid-row: span 2; }
+}
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+3) { grid-column: span 2; grid-row: span 2; }
+}
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+4) { grid-column: span 4; grid-row: span 2; }
+}
+    @media (max-width: 900px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+5) { grid-column: span 2; grid-row: span 3; }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] {
+            padding: 0.25rem !important;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] .callout-content {
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: 130px;
+            gap: 0.5rem;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] .callout-content > p,
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+1),
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+2),
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+3),
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+4),
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(5n+5) {
+            grid-column: span 1;
+            grid-row: span 1;
+            transform: none;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1) {
+            box-shadow: 4px 4px 0 var(--color-neo-lime, #c2f970), 4px 4px 0 1px #000;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2) {
+            box-shadow: 4px 4px 0 var(--color-neo-orange, #ff6b35), 4px 4px 0 1px #000;
+        }
+}
+    @media (max-width: 560px) {
+        .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3) {
+            box-shadow: 4px 4px 0 var(--color-neo-blue, #2e5cff), 4px 4px 0 1px #000;
+        }
+}
+    .callout[data-callout="example"] {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 2.5em 0 !important;
+        counter-reset: specimen;
+        overflow: visible !important;
+    }
+    .callout[data-callout="example"]::before {
+        display: none !important;
+    }
+    .callout[data-callout="example"] .callout-title {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 0.5em;
+        width: auto !important;
+        padding: 5px 12px !important;
+        margin: 0 0 1.25rem 0 !important;
+        background: #0a0a0a !important;
+        color: #fff !important;
+        border: 2.5px solid #000 !important;
+        border-radius: 0 !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.16em !important;
+        text-transform: uppercase !important;
+        line-height: 1.2 !important;
+        transform: rotate(-1.2deg);
+        box-shadow: 3px 3px 0 #a855f7;
+    }
+    .callout[data-callout="example"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+    }
+    .callout[data-callout="example"] .callout-title .callout-icon::before {
+        font-size: 0.95em;
+    }
+    .callout[data-callout="example"] .callout-content {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+    .callout[data-callout="example"] .callout-content > p {
+        counter-increment: specimen;
+        position: relative;
+        background: #faf8f3 !important;
+        border: 3px solid #000 !important;
+        box-shadow: 6px 6px 0 #000 !important;
+        padding: 1.35rem 1.5rem !important;
+        margin: 0 !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 0.95em !important;
+        line-height: 1.55 !important;
+        color: #1a1a1a !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        will-change: transform;
+    }
+    .callout[data-callout="example"] .callout-content > p::before {
+        content: "EX_" counter(specimen, decimal-leading-zero);
+        position: absolute;
+        top: -11px;
+        left: 1rem;
+        background: #a855f7;
+        color: #fff;
+        border: 2.5px solid #000;
+        padding: 2px 8px;
+        font-family: var(--font-monospace-theme);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        line-height: 1.2;
+        z-index: 2;
+        pointer-events: none;
+    }
+    @media (min-width: 769px) {
+        .callout[data-callout="example"] .callout-content > p:nth-of-type(odd) {
+            transform: rotate(-0.35deg);
+        }
+}
+    @media (min-width: 769px) {
+        .callout[data-callout="example"] .callout-content > p:nth-of-type(even) {
+            transform: rotate(0.35deg);
+        }
+}
+    @media (min-width: 769px) {
+        .callout[data-callout="example"] .callout-content > p:hover {
+            transform: rotate(0deg) translate(-2px, -2px);
+            box-shadow: 8px 8px 0 #a855f7 !important;
+        }
+}
+    @media (max-width: 768px) {
+        .callout[data-callout="example"] .callout-content {
+            gap: 1.25rem !important;
+        }
+}
+    @media (max-width: 768px) {
+        .callout[data-callout="example"] .callout-content > p {
+            padding: 1.1rem 1.1rem !important;
+            box-shadow: 4px 4px 0 #000 !important;
+            font-size: 0.9em !important;
+        }
+}
+    @media (max-width: 768px) {
+        .callout[data-callout="example"] .callout-content > p::before {
+            top: -10px;
+            left: 0.75rem;
+            font-size: 9px;
+        }
+}
+    .callout[data-callout="cards"] {
+        --callout-color: var(--color-neo-blue, #2e5cff);
+        --callout-icon: "🃏";
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 2.5em 0 !important;
+        overflow: visible !important;
+        counter-reset: cardpair;
+    }
+    .callout[data-callout="cards"]::before {
+        display: none !important;
+    }
+    .callout[data-callout="cards"] .callout-title {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 0.5em;
+        width: auto !important;
+        padding: 5px 12px !important;
+        margin: 0 0 1.5rem 0 !important;
+        background: #0a0a0a !important;
+        color: #fff !important;
+        border: 2.5px solid #000 !important;
+        border-radius: 0 !important;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.16em !important;
+        text-transform: uppercase !important;
+        line-height: 1.2 !important;
+        transform: rotate(-1deg);
+        box-shadow: 3px 3px 0 var(--color-neo-blue, #2e5cff);
+    }
+    .callout[data-callout="cards"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+        font-weight: 700 !important;
+        font-size: 11px !important;
+    }
+    .callout[data-callout="cards"] .callout-title .callout-icon::before {
+        font-size: 0.95em;
+    }
+    .callout[data-callout="cards"] .callout-content {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem 1.75rem;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+    .callout[data-callout="cards"] .callout-content > p {
+        margin: 0 !important;
+        padding: 1rem 1.25rem !important;
+        background: #faf8f3;
+        border: 3px solid #000;
+        box-shadow: 5px 5px 0 #000;
+        font-family: var(--font-monospace-theme) !important;
+        font-size: 0.9em !important;
+        line-height: 1.6 !important;
+        white-space: pre-line;
+    }
+    .callout[data-callout="cards"] .flip-card {
+        counter-increment: cardpair;
+        perspective: 1200px;
+        cursor: pointer;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .callout[data-callout="cards"] .flip-card-inner {
+        display: grid;
+        transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform-style: preserve-3d;
+    }
+    .callout[data-callout="cards"] .flip-card.is-flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    .callout[data-callout="cards"] .flip-card-face {
+        grid-area: 1 / 1;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1.6rem 1.4rem;
+        min-height: 130px;
+        border: 3px solid #000;
+        box-shadow: 6px 6px 0 #000;
+        font-family: var(--font-monospace-theme);
+        font-size: 0.95em;
+        line-height: 1.5;
+        color: #1a1a1a;
+        transition: box-shadow 0.18s ease;
+    }
+    .callout[data-callout="cards"] .flip-card-front {
+        background: #faf8f3;
+    }
+    .callout[data-callout="cards"] .flip-card-back {
+        background: var(--color-neo-lime, #c2f970);
+        transform: rotateY(180deg);
+    }
+    .callout[data-callout="cards"] .flip-card-face::before {
+        content: counter(cardpair, decimal-leading-zero);
+        position: absolute;
+        top: -11px;
+        left: 1rem;
+        background: var(--color-neo-blue, #2e5cff);
+        color: #fff;
+        border: 2.5px solid #000;
+        padding: 2px 8px;
+        font-family: var(--font-monospace-theme);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        line-height: 1.2;
+        z-index: 2;
+    }
+    .callout[data-callout="cards"] .flip-card-front::after {
+        content: "↻ FLIP";
+        position: absolute;
+        bottom: 0.55rem;
+        right: 0.7rem;
+        font-family: var(--font-monospace-theme);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: #6b5d48;
+        pointer-events: none;
+    }
+    .callout[data-callout="cards"] .flip-card-back::after {
+        content: "↺ BACK";
+        position: absolute;
+        bottom: 0.55rem;
+        right: 0.7rem;
+        font-family: var(--font-monospace-theme);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: #1a3a14;
+        pointer-events: none;
+    }
+    @media (hover: hover) {
+        .callout[data-callout="cards"] .flip-card:hover .flip-card-face {
+            box-shadow: 8px 8px 0 var(--color-neo-blue, #2e5cff);
+        }
+}
+    .callout[data-callout="cards"] .flip-card:focus-visible {
+        outline: none;
+    }
+    .callout[data-callout="cards"] .flip-card:focus-visible .flip-card-face {
+        box-shadow: 8px 8px 0 var(--color-neo-orange, #ff6b35);
+    }
+    @media (max-width: 640px) {
+        .callout[data-callout="cards"] .callout-content {
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+}
+    @media (max-width: 640px) {
+        .callout[data-callout="cards"] .flip-card-face {
+            padding: 1.2rem 1rem;
+            font-size: 0.88em;
+            box-shadow: 4px 4px 0 #000;
+            min-height: 110px;
+        }
+}
+    @media (max-width: 640px) {
+        .callout[data-callout="cards"] .flip-card:hover .flip-card-face {
+            box-shadow: 5px 5px 0 var(--color-neo-blue, #2e5cff);
+        }
+}
+    @media (prefers-reduced-motion: reduce) {
+        .callout[data-callout="cards"] .flip-card-inner {
+            transition-duration: 0.01s;
+        }
+}
+    .theme-dark .prose .callout-title,
+.theme-dark .prose .callout-title :is(strong, .callout-title-inner),
+.theme-dark .prose .callout-title span,
+.theme-dark .prose .callout-icon::before {
+    color: #000 !important;
+}
+    .theme-dark .callout-title {
+    border-bottom-color: #000 !important;
+    /* Keep the brutalist line black */
+}
+    .theme-dark .callout {
+    background: #292524 !important;
+    border-color: #57534E !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.08);
+}
+    .theme-dark .callout>*:not(.callout-title) {
+    color: #D6D3D1;
+}
+    .theme-dark .callout[data-callout="annotation"] {
+    background: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.10) !important;
+}
+    .theme-dark .callout[data-callout="annotation"] .callout-title {
+    background: #44403C !important;
+    color: #D6D3D1 !important;
+    border-bottom-color: #57534E !important;
+}
+    .theme-dark .callout[data-callout="annotation"] .callout-title :is(strong, .callout-title-inner) {
+    color: #D6D3D1 !important;
+}
+    .theme-dark .callout[data-callout="dialogue"] {
+    background: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.10) !important;
+}
+    .theme-dark .callout[data-callout="dialogue"]::after {
+    background-image: radial-gradient(circle, #D6D3D1 1px, transparent 0);
+    opacity: 0.04;
+}
+    .theme-dark .callout[data-callout="dialogue"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    box-shadow: 2px 2px 0 var(--color-neo-orange, #FF6B35) !important;
+    border-bottom-color: #57534E !important;
+}
+    .theme-dark .callout[data-callout="dialogue"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(odd) {
+    background: #292524;
+    border-color: #57534E;
+    color: #D6D3D1;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+    .theme-dark .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(odd)::before {
+    background: #292524;
+    border-color: #57534E;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+    .theme-dark .callout[data-callout="dialogue"] .callout-content > p:nth-of-type(even) {
+    color: #1C1917 !important;
+    box-shadow: -4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+    .theme-dark .callout[data-callout="postscriptum"] {
+    background: #2a241c !important;
+    border-color: #57534E !important;
+    box-shadow: 7px 7px 0 rgba(255, 107, 53, 0.55) !important;
+}
+    .theme-dark .callout[data-callout="postscriptum"]::after {
+    color: #a89476;
+    border-color: #6b5d48;
+    background: rgba(255, 255, 255, 0.04);
+}
+    .theme-dark .callout[data-callout="postscriptum"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 3px 3px 0 rgba(255, 107, 53, 0.65) !important;
+}
+    .theme-dark .callout[data-callout="postscriptum"] .callout-title :is(strong, .callout-title-inner)::before {
+    color: #1C1917;
+}
+    .theme-dark .callout[data-callout="postscriptum"] .callout-content p {
+    color: #D6D3D1 !important;
+}
+    @media (max-width: 560px) {
+    .theme-dark .callout[data-callout="postscriptum"] {
+        box-shadow: 5px 5px 0 rgba(255, 107, 53, 0.55) !important;
+    }
+}
+    .theme-dark .callout[data-callout="example"],
+.theme-dark .callout[data-callout="cards"] {
+    background: transparent !important;
+}
+    .theme-dark .callout[data-callout="example"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 3px 3px 0 rgba(168, 85, 247, 0.7);
+}
+    .theme-dark .callout[data-callout="example"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="example"] .callout-content > p {
+    background: #1C1917 !important;
+    border-color: #57534E !important;
+    color: #D6D3D1 !important;
+    box-shadow: 6px 6px 0 rgba(168, 85, 247, 0.55), 6px 6px 0 1px #57534E !important;
+}
+    .theme-dark .callout[data-callout="example"] .callout-content > p::before {
+    background: #a855f7;
+    color: #fff;
+    border-color: #57534E;
+}
+    @media (min-width: 769px) {
+    .theme-dark .callout[data-callout="example"] .callout-content > p:hover {
+        box-shadow: 8px 8px 0 rgba(168, 85, 247, 0.75), 8px 8px 0 1px #57534E !important;
+    }
+}
+    @media (max-width: 768px) {
+    .theme-dark .callout[data-callout="example"] .callout-content > p {
+        box-shadow: 4px 4px 0 rgba(168, 85, 247, 0.55), 4px 4px 0 1px #57534E !important;
+    }
+}
+    .theme-dark .callout[data-callout="cards"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 3px 3px 0 rgba(46, 92, 255, 0.75);
+}
+    .theme-dark .callout[data-callout="cards"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="cards"] .callout-content > p {
+    background: #1C1917;
+    border-color: #57534E;
+    color: #D6D3D1;
+    box-shadow: 5px 5px 0 rgba(46, 92, 255, 0.55), 5px 5px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card-front {
+    background: #1C1917;
+    color: #D6D3D1;
+    border-color: #57534E;
+    box-shadow: 6px 6px 0 rgba(46, 92, 255, 0.6), 6px 6px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card-back {
+    background: rgba(194, 249, 112, 0.92);
+    color: #0a1a05;
+    border-color: #57534E;
+    box-shadow: 6px 6px 0 rgba(46, 92, 255, 0.6), 6px 6px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card-face::before {
+    background: var(--color-neo-blue, #2e5cff);
+    color: #fff;
+    border-color: #57534E;
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card-front::after {
+    color: #a8a29e;
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card-back::after {
+    color: #1a3a14;
+}
+    @media (hover: hover) {
+    .theme-dark .callout[data-callout="cards"] .flip-card:hover .flip-card-face {
+        box-shadow: 8px 8px 0 rgba(46, 92, 255, 0.85), 8px 8px 0 1px #57534E;
+    }
+}
+    .theme-dark .callout[data-callout="cards"] .flip-card:focus-visible .flip-card-face {
+    box-shadow: 8px 8px 0 rgba(255, 107, 53, 0.9), 8px 8px 0 1px #57534E;
+}
+    @media (max-width: 640px) {
+    .theme-dark .callout[data-callout="cards"] .flip-card-face {
+        box-shadow: 4px 4px 0 rgba(46, 92, 255, 0.6), 4px 4px 0 1px #57534E;
+    }
+}
+    @media (max-width: 640px) {
+    .theme-dark .callout[data-callout="cards"] .flip-card:hover .flip-card-face {
+        box-shadow: 5px 5px 0 rgba(46, 92, 255, 0.85), 5px 5px 0 1px #57534E;
+    }
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p {
+    border-color: #57534E;
+    background: #1C1917;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1) {
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.55), 6px 6px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2) {
+    box-shadow: 6px 6px 0 rgba(255, 107, 53, 0.55), 6px 6px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3) {
+    box-shadow: 6px 6px 0 rgba(46, 92, 255, 0.55), 6px 6px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1):hover {
+    box-shadow: 10px 10px 0 rgba(194, 249, 112, 0.7), 10px 10px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2):hover {
+    box-shadow: 10px 10px 0 rgba(255, 107, 53, 0.7), 10px 10px 0 1px #57534E;
+}
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3):hover {
+    box-shadow: 10px 10px 0 rgba(46, 92, 255, 0.7), 10px 10px 0 1px #57534E;
+}
+    @media (max-width: 560px) {
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+1) {
+        box-shadow: 4px 4px 0 rgba(194, 249, 112, 0.55), 4px 4px 0 1px #57534E;
+    }
+}
+    @media (max-width: 560px) {
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+2) {
+        box-shadow: 4px 4px 0 rgba(255, 107, 53, 0.55), 4px 4px 0 1px #57534E;
+    }
+}
+    @media (max-width: 560px) {
+    .theme-dark .callout[data-callout="collage"] .callout-content > p:nth-of-type(3n+3) {
+        box-shadow: 4px 4px 0 rgba(46, 92, 255, 0.55), 4px 4px 0 1px #57534E;
+    }
+}
+    .theme-dark .callout[data-callout="definition"] {
+    background: #292524 !important; /* Darker paper for night */
+    border-color: #57534E !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.10) !important;
+}
+    .theme-dark .callout[data-callout="definition"] .callout-title {
+    background: #D6D3D1 !important; /* Light sticker */
+    color: #1C1917 !important; /* Dark text */
+    border-color: #57534E !important;
+    box-shadow: 2px 2px 0 var(--color-neo-lime, #C2F970) !important;
+}
+    .theme-dark .callout[data-callout="definition"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="prompt"] {
+    background: #1C1917 !important;
+    border-color: #57534E !important;
+    border-left: 6px solid #06b6d4 !important;
+    box-shadow: 6px 6px 0 rgba(6, 182, 212, 0.15) !important;
+}
+    .theme-dark .callout[data-callout="prompt"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #0e7490 !important;
+    border-color: #57534E !important;
+    box-shadow: 2px 2px 0 #06b6d4 !important;
+}
+    .theme-dark .callout[data-callout="prompt"] .callout-title :is(strong, .callout-title-inner) {
+    color: #0e7490 !important;
+}
+    .theme-dark .callout[data-callout="prompt"] .callout-content {
+    color: #D6D3D1;
+}
+    .theme-dark .callout-prompt-copy {
+    background: #D6D3D1 !important;
+    color: #0e7490 !important;
+    border-color: #57534E !important;
+    box-shadow: 2px 2px 0 #06b6d4 !important;
+}
+    .theme-dark .callout-prompt-copy.copied {
+    color: var(--color-neo-lime, #c2f970) !important;
+    box-shadow: 2px 2px 0 var(--color-neo-lime, #c2f970) !important;
+}
+    .theme-dark .callout[data-callout="always"] {
+    background: #292524 !important;
+    border-color: #57534E !important;
+    border-left: 6px solid var(--color-neo-lime, #c2f970) !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.10) !important;
+}
+    .theme-dark .callout[data-callout="always"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 2px 2px 0 var(--color-neo-lime, #C2F970) !important;
+}
+    .theme-dark .callout[data-callout="always"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="never"] {
+    background: #292524 !important;
+    border-color: #57534E !important;
+    border-right: 6px solid #ef4444 !important;
+    box-shadow: 6px 6px 0 rgba(194, 249, 112, 0.10) !important;
+}
+    .theme-dark .callout[data-callout="never"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: -2px 2px 0 #ef4444 !important;
+}
+    .theme-dark .callout[data-callout="never"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="gap"] {
+    border-left: 3px solid #44403C !important;
+}
+    .theme-dark .callout[data-callout="gap"] .callout-content::before {
+    color: #57534E !important;
+}
+    .theme-dark .callout[data-callout="gap"] .callout-content::after {
+    background-image: radial-gradient(circle, #57534E 1px, transparent 1px);
+}
+    .theme-dark .callout[data-callout="notify"] {
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px dashed #57534E !important;
+    border-bottom: 1px dashed #57534E !important;
+    box-shadow: none !important;
+}
+    .theme-dark .callout[data-callout="notify"] .callout-content,
+.theme-dark .callout[data-callout="notify"] .callout-content p {
+    color: #78716C !important;
+}
+    .theme-dark .callout[data-callout="notify"] .callout-content a {
+    color: #78716C !important;
+}
+    .theme-dark .callout[data-callout="notify"] .callout-content a:hover {
+    color: #D6D3D1 !important;
+}
+    .theme-dark .callout[data-callout="quote"] {
+    background: #1C1917 !important;
+    border-left-color: var(--color-neo-lime, #c2f970) !important;
+}
+    .theme-dark .callout[data-callout="quote"]::before {
+    background: var(--color-neo-lime, #c2f970);
+    color: #000;
+}
+    .theme-dark .callout[data-callout="quote"] .callout-content p {
+    color: #D6D3D1 !important;
+}
+    .theme-dark .callout[data-callout="quote"] .callout-content p:last-child {
+    color: #A8A29E !important;
+    border-top-color: #44403C !important;
+}
+    .theme-dark .callout[data-callout="epigraph"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+    .theme-dark .callout[data-callout="epigraph"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #1C1917 !important;
+    box-shadow: 2px 2px 0 var(--color-neo-lime, #C2F970) !important;
+}
+    .theme-dark .prose .callout[data-callout="epigraph"] .callout-title,
+.theme-dark .prose .callout[data-callout="epigraph"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="epigraph"] .callout-content p {
+    color: #A8A29E !important;
+}
+    .theme-dark .callout[data-callout="epigraph"] .callout-content p:not(:only-child):last-child {
+    color: #78716C !important;
+}
+    .theme-dark .callout[data-callout="poem"] {
+    background: #1C1917 !important;
+    border-color: #D6D3D1 !important;
+    box-shadow: 4px 4px 0 var(--color-neo-lime, #c2f970) !important;
+}
+    .theme-dark .callout[data-callout="poem"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #1C1917 !important;
+}
+    .theme-dark .prose .callout[data-callout="poem"] .callout-title,
+.theme-dark .prose .callout[data-callout="poem"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="poem"] .callout-title :is(strong, .callout-title-inner)::before {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="poem"]::after {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="poem"] .callout-content p {
+    color: #D6D3D1 !important;
+}
+    .theme-dark .callout[data-callout="poem"] .callout-content p strong {
+    color: #000 !important;
+}
+    .theme-dark .callout[data-callout="poem"] .callout-content p:not(:only-child):last-child {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-color: #1C1917 !important;
+    box-shadow: 3px 3px 0 var(--color-neo-lime, #c2f970) !important;
+}
+    /* Адаптер: иконки этих типов задаёт сайт, svg Obsidian прячем */
+    .callout[data-callout="abstract"] .callout-icon svg,
+.callout[data-callout="always"] .callout-icon svg,
+.callout[data-callout="annotation"] .callout-icon svg,
+.callout[data-callout="cards"] .callout-icon svg,
+.callout[data-callout="caution"] .callout-icon svg,
+.callout[data-callout="collage"] .callout-icon svg,
+.callout[data-callout="definition"] .callout-icon svg,
+.callout[data-callout="dialogue"] .callout-icon svg,
+.callout[data-callout="epigraph"] .callout-icon svg,
+.callout[data-callout="example"] .callout-icon svg,
+.callout[data-callout="feedback"] .callout-icon svg,
+.callout[data-callout="gap"] .callout-icon svg,
+.callout[data-callout="important"] .callout-icon svg,
+.callout[data-callout="info"] .callout-icon svg,
+.callout[data-callout="never"] .callout-icon svg,
+.callout[data-callout="note"] .callout-icon svg,
+.callout[data-callout="notify"] .callout-icon svg,
+.callout[data-callout="poem"] .callout-icon svg,
+.callout[data-callout="postscriptum"] .callout-icon svg,
+.callout[data-callout="prompt"] .callout-icon svg,
+.callout[data-callout="question"] .callout-icon svg,
+.callout[data-callout="quote"] .callout-icon svg,
+.callout[data-callout="tip"] .callout-icon svg,
+.callout[data-callout="todo"] .callout-icon svg,
+.callout[data-callout="warning"] .callout-icon svg {
+  display: none;
+}
+    /* Адаптер: у сайта тело callout'а без overflow — декорации торчат наружу */
+    .callout[data-callout="abstract"] .callout-content,
+.callout[data-callout="always"] .callout-content,
+.callout[data-callout="annotation"] .callout-content,
+.callout[data-callout="cards"] .callout-content,
+.callout[data-callout="caution"] .callout-content,
+.callout[data-callout="collage"] .callout-content,
+.callout[data-callout="definition"] .callout-content,
+.callout[data-callout="dialogue"] .callout-content,
+.callout[data-callout="epigraph"] .callout-content,
+.callout[data-callout="example"] .callout-content,
+.callout[data-callout="feedback"] .callout-content,
+.callout[data-callout="gap"] .callout-content,
+.callout[data-callout="important"] .callout-content,
+.callout[data-callout="info"] .callout-content,
+.callout[data-callout="never"] .callout-content,
+.callout[data-callout="note"] .callout-content,
+.callout[data-callout="notify"] .callout-content,
+.callout[data-callout="poem"] .callout-content,
+.callout[data-callout="postscriptum"] .callout-content,
+.callout[data-callout="prompt"] .callout-content,
+.callout[data-callout="question"] .callout-content,
+.callout[data-callout="quote"] .callout-content,
+.callout[data-callout="tip"] .callout-content,
+.callout[data-callout="todo"] .callout-content,
+.callout[data-callout="warning"] .callout-content {
+  overflow: visible !important;
+}
