@@ -733,8 +733,9 @@ input[type="checkbox"]:checked {
         --callout-icon: "🧪";
     }
     .callout[data-callout="question"] {
-        --callout-color: #06b6d4;
-        --callout-icon: "❓";
+        /* свой вид — «Билет», ниже после общих правил callout'а */
+        --callout-color: var(--color-neo-blue, #2e5cff);
+        --callout-icon: "?";
     }
     .callout[data-callout="quote"] {
         --callout-color: #e2e8f0;
@@ -1205,6 +1206,126 @@ input[type="checkbox"]:checked {
     .callout .callout-content {
         padding: 1rem 1.25rem !important;
     }
+    .callout[data-callout="question"] {
+        --q-stub: 84px;
+        --q-card: #fff;
+        --q-line: #000;
+        --q-hole: var(--background-primary);
+        position: relative;
+        display: grid;
+        grid-template-columns: var(--q-stub) minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        background: linear-gradient(
+            90deg,
+            var(--color-neo-blue, #2e5cff) 0 var(--q-stub),
+            var(--q-card) var(--q-stub)
+        ) !important;
+        overflow: visible !important;
+    }
+    .callout[data-callout="question"]::before {
+        content: "?" !important;
+        display: block !important;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+        padding-top: 14px;
+        font: 700 60px/1 var(--font-monospace-theme);
+        color: #fff;
+        text-shadow: 3px 3px 0 #000;
+    }
+    .callout[data-callout="question"] .callout-title {
+        grid-column: 1;
+        grid-row: 2;
+        align-self: end;
+        justify-self: center;
+        display: block;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        padding: 18px 0 16px !important;
+        background: transparent !important;
+        border: 0;
+        font-family: var(--font-monospace-theme);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        line-height: 1.4;
+        /* ≈19 знаков в строке: 60–65 знаков ложатся в 4 строки = 62px из 84px корешка */
+        max-inline-size: 190px;
+        white-space: normal;
+        overflow-wrap: break-word;
+        text-wrap: balance;
+    }
+    div.callout[data-callout="question"] .callout-title {
+        cursor: default;
+    }
+    .callout[data-callout="question"] .callout-title,
+    .callout[data-callout="question"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+        font-weight: 700 !important;
+    }
+    .callout[data-callout="question"] .callout-icon {
+        display: none !important;
+    }
+    .callout[data-callout="question"] .callout-content {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        position: relative;
+        border-left: 3px dashed var(--q-line);
+        padding: 1.25rem 1.4rem 1.35rem !important;
+        font-size: 0.98em;
+        line-height: 1.75;
+    }
+    .callout[data-callout="question"] .callout-content::before,
+    .callout[data-callout="question"] .callout-content::after {
+        content: "";
+        position: absolute;
+        left: -11.5px;
+        width: 20px;
+        height: 20px;
+        box-sizing: border-box;
+        background: var(--q-hole);
+        border: 0 solid var(--q-line);
+        transform: rotate(45deg);
+        pointer-events: none;
+    }
+    .callout[data-callout="question"] .callout-content::before {
+        top: -11.5px;
+        border-width: 0 3px 3px 0;
+    }
+    .callout[data-callout="question"] .callout-content::after {
+        bottom: -11.5px;
+        border-width: 3px 0 0 3px;
+    }
+    @media (max-width: 640px) {
+        .callout[data-callout="question"] {
+            --q-stub: 56px;
+        }
+}
+    @media (max-width: 640px) {
+
+        .callout[data-callout="question"]::before {
+            font-size: 40px;
+            padding-top: 12px;
+            text-shadow: 2px 2px 0 #000;
+        }
+}
+    @media (max-width: 640px) {
+
+        .callout[data-callout="question"] .callout-title {
+            font-size: 9.5px;
+            letter-spacing: 0.12em;
+            line-height: 1.3;
+            padding: 14px 0 12px !important;
+            /* ≈19 знаков; 4 строки = 49px из 56px корешка */
+            max-inline-size: 160px;
+        }
+}
+    @media (max-width: 640px) {
+
+        .callout[data-callout="question"] .callout-content {
+            padding: 1rem 1rem 1.1rem !important;
+            font-size: 0.95em;
+        }
+}
     .callout[data-callout="notify"] {
         --callout-icon: "📖";
         --callout-color: transparent;
@@ -2102,6 +2223,62 @@ input[type="checkbox"]:checked {
             transition-duration: 0.01s;
         }
 }
+    .callout[data-callout="snail"] {
+        --snail-accent: var(--color-neo-blue, #2e5cff);
+        --snail-line: #000;
+        --snail-paper: #fff;
+        --snail-grid: rgba(46, 92, 255, 0.08);
+        --snail-spiral: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M9 11a2 2 0 0 1 4 0a4 4 0 0 1-8 0a6 6 0 0 1 12 0'/%3E%3C/svg%3E");
+        position: relative;
+        background-color: var(--snail-paper) !important;
+        background-image:
+            linear-gradient(to right, var(--snail-grid) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--snail-grid) 1px, transparent 1px) !important;
+        background-size: 16px 16px !important;
+        border: 3px solid var(--snail-line) !important;
+        box-shadow: 6px 6px 0 var(--snail-accent) !important;
+        overflow: visible !important;
+    }
+    .callout[data-callout="snail"] .callout-title {
+        background: var(--snail-line) !important;
+        color: #fff !important;
+        border-bottom: 3px solid var(--snail-line);
+        font-family: var(--font-monospace-theme);
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.18em;
+        padding: 0.6rem 1rem !important;
+        cursor: default;
+    }
+    .callout[data-callout="snail"] .callout-title :is(strong, .callout-title-inner) {
+        color: #fff !important;
+        font-weight: 700 !important;
+    }
+    .callout[data-callout="snail"] .callout-title::after {
+        content: "ЛОГИЧЕСКАЯ СВЯЗКА";
+        margin-left: auto;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        opacity: 0.55;
+    }
+    .callout[data-callout="snail"] .callout-icon::before {
+        content: "";
+        display: block;
+        width: 17px;
+        height: 17px;
+        background-color: currentColor;
+        -webkit-mask: var(--snail-spiral) center / contain no-repeat;
+        mask: var(--snail-spiral) center / contain no-repeat;
+    }
+    .callout[data-callout="snail"] .snail-body {
+        padding: 2rem 1.5rem 1.5rem !important;
+        background: transparent !important;
+    }
+    @media (max-width: 720px) {
+        .callout[data-callout="snail"] .snail-body {
+            padding: 1.75rem 1.1rem 1.25rem !important;
+        }
+}
     .theme-dark .prose .callout-title,
 .theme-dark .prose .callout-title :is(strong, .callout-title-inner),
 .theme-dark .prose .callout-title span,
@@ -2334,6 +2511,18 @@ input[type="checkbox"]:checked {
     .theme-dark .callout[data-callout="definition"] .callout-title :is(strong, .callout-title-inner) {
     color: #1C1917 !important;
 }
+    .theme-dark .callout[data-callout="question"] {
+    --q-card: #292524;
+    --q-line: #57534E;
+    --q-hole: var(--background-primary);
+    background: linear-gradient(90deg,
+            var(--color-neo-blue, #2E5CFF) 0 var(--q-stub),
+            var(--q-card) var(--q-stub)) !important;
+}
+    .theme-dark .prose .callout[data-callout="question"] .callout-title,
+.theme-dark .prose .callout[data-callout="question"] .callout-title :is(strong, .callout-title-inner) {
+    color: #fff !important;
+}
     .theme-dark .callout[data-callout="prompt"] {
     background: #1C1917 !important;
     border-color: #57534E !important;
@@ -2488,6 +2677,42 @@ input[type="checkbox"]:checked {
     border-color: #1C1917 !important;
     box-shadow: 3px 3px 0 var(--color-neo-lime, #c2f970) !important;
 }
+    .theme-dark .callout[data-callout="snail"] {
+    --snail-line: #57534E;
+    --snail-paper: #1C1917;
+    --snail-grid: rgba(122, 162, 255, 0.11);
+    background-color: #1C1917 !important;
+    border-color: #57534E !important;
+    box-shadow: 6px 6px 0 rgba(46, 92, 255, 0.35) !important;
+}
+    .theme-dark .callout[data-callout="snail"] .callout-title {
+    background: #D6D3D1 !important;
+    color: #1C1917 !important;
+    border-bottom-color: #57534E !important;
+}
+    .theme-dark .callout[data-callout="snail"] .callout-title :is(strong, .callout-title-inner) {
+    color: #1C1917 !important;
+}
+    .theme-dark .callout[data-callout="snail"] .snail-node {
+    background: #292524;
+    border-color: #57534E;
+    color: #D6D3D1;
+}
+    .theme-dark .callout[data-callout="snail"] .snail-tag {
+    background: var(--color-neo-blue, #2e5cff);
+    color: #FAFAF9;
+    border-color: #57534E;
+}
+    .theme-dark .callout[data-callout="snail"] .snail-arrow {
+    background: #57534E;
+}
+    .theme-dark .callout[data-callout="snail"] .snail-because {
+    border-top-color: #57534E;
+}
+    .theme-dark .callout[data-callout="snail"] .snail-node-text,
+.theme-dark .callout[data-callout="snail"] .snail-because-text {
+    color: #D6D3D1;
+}
     /* Адаптер: иконки этих типов задаёт сайт, svg Obsidian прячем */
     .callout[data-callout="abstract"] .callout-icon svg,
 .callout[data-callout="always"] .callout-icon svg,
@@ -2511,6 +2736,7 @@ input[type="checkbox"]:checked {
 .callout[data-callout="prompt"] .callout-icon svg,
 .callout[data-callout="question"] .callout-icon svg,
 .callout[data-callout="quote"] .callout-icon svg,
+.callout[data-callout="snail"] .callout-icon svg,
 .callout[data-callout="tip"] .callout-icon svg,
 .callout[data-callout="todo"] .callout-icon svg,
 .callout[data-callout="warning"] .callout-icon svg {
@@ -2539,6 +2765,7 @@ input[type="checkbox"]:checked {
 .callout[data-callout="prompt"] .callout-content,
 .callout[data-callout="question"] .callout-content,
 .callout[data-callout="quote"] .callout-content,
+.callout[data-callout="snail"] .callout-content,
 .callout[data-callout="tip"] .callout-content,
 .callout[data-callout="todo"] .callout-content,
 .callout[data-callout="warning"] .callout-content {

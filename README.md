@@ -2,7 +2,7 @@
 
 A neo-brutalist Obsidian theme ported from my digital garden at
 **[rustamagamaliev.ru](https://rustamagamaliev.ru)** — paper, hard shadows, black
-3px borders, and a full system of 15 hand-designed callouts.
+3px borders, and a full system of 17 hand-designed callouts.
 
 ![BrutalGarden — light and dark](screenshot.png)
 
@@ -18,7 +18,7 @@ Accents follow the house palette — **Neo-Lime** `#C2F970` leads, **Neo-Blue**
 
 ---
 
-## 🎨 15 callouts, not repainted rectangles
+## 🎨 17 callouts, not repainted rectangles
 
 This is the part I actually care about. The callouts aren't recolored boxes —
 each type has its own character, ported from the live CSS of my garden:
@@ -26,6 +26,7 @@ each type has its own character, ported from the live CSS of my garden:
 | | |
 |---|---|
 | `quote` | book page — black bar, quote mark hanging in the margin |
+| `question` | exam ticket — blue stub with «?», the topic set along the spine, perforation with V-notches |
 | `epigraph` | a whisper in the margin, right-aligned, sticker title |
 | `poem` | concert poster — silkscreen, «33⅓ RPM», signature stamp |
 | `definition` | dark paper, lime sticker |
@@ -39,6 +40,7 @@ each type has its own character, ported from the live CSS of my garden:
 | `notify` | a quiet dashed banner, no background |
 | `annotation` | a side note that doesn't derail the text |
 | `cards` | flip-card layout |
+| `snail` | a logical chain as an engineering drawing — grid paper, dark title-block stamp with a spiral |
 
 Standard Obsidian callouts (`info`, `tip`, `warning`, `success`, `bug`…) all
 work too — they inherit the same brutal frame and title bar.
@@ -46,15 +48,19 @@ work too — they inherit the same brutal frame and title bar.
 ![All callouts, light](docs/callouts-light.png)
 
 <details>
-<summary>Same 15 in Soft Night →</summary>
+<summary>Same in Soft Night →</summary>
 
 ![All callouts, dark](docs/callouts-dark.png)
 
 </details>
 
-**Two honest limitations.** `cards` doesn't flip and `prompt` has no copy button:
+**Honest limitations.** `cards` doesn't flip and `prompt` has no copy button:
 on the website that DOM is built by JavaScript, and a theme is CSS only. Their
-graphics are intact; only the interaction is missing.
+graphics are intact; only the interaction is missing. Same story for `snail`:
+on the site its body becomes an IF ═▶ THEN + BECAUSE diagram built from the
+text, here the drawing frame and stamp are in place but the body stays plain
+text. `[!YT]` isn't styled at all — on the site it's a retro TV assembled by
+JavaScript, so here it stays a regular callout with the title and the link.
 
 ---
 
@@ -126,9 +132,10 @@ don't edit it by hand.
 в Обсидиан. Нео-брутализм: бумага `#F4F4F0`, чёрные рамки 3px, тени без размытия
 — как вырезанный картон. Ночью — «Soft Night»: тёплый уголь и тени лаймом.
 
-Главное в теме — **система из 15 callout'ов**. Не перекрашенные прямоугольники,
+Главное в теме — **система из 17 callout'ов**. Не перекрашенные прямоугольники,
 а разные характеры: цитата как страница книги, эпиграф-шёпот на полях, стихи как
-концертная афиша, «пауза» с точечной сеткой, чтобы было где подумать.
+концертная афиша, вопрос как экзаменационный билет с отрывным корешком,
+«пауза» с точечной сеткой, чтобы было где подумать.
 
 Шрифты — iA Writer (ставятся [отдельно](https://github.com/iaolo/iA-Fonts),
 бесплатно). Чтобы тема ими управляла, поля шрифтов в настройках внешнего вида
